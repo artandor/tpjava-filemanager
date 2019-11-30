@@ -11,12 +11,20 @@
 
   <artifactId>business</artifactId>
   <dependencies>
-    <dependency>
-      <groupId>org.hibernate.validator</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>6.1.0.Alpha6</version>
-      <scope>compile</scope>
-    </dependency>
+      <dependency>
+          <groupId>org.hibernate.validator</groupId>
+          <artifactId>hibernate-validator</artifactId>
+          <version>6.1.0.Alpha6</version>
+          <scope>compile</scope>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+      <dependency>
+          <groupId>com.amazonaws</groupId>
+          <artifactId>aws-java-sdk</artifactId>
+          <version>1.11.683</version>
+      </dependency>
+
   </dependencies>
 
 

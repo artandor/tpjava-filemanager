@@ -15,5 +15,5 @@ spring:
 
 okta:
   oauth2:
-    issuer: https://{replace-me}/oauth2/default
-    clientId: {replace-me}
+    issuer: https://dev-765479.okta.com/oauth2/default
+    clientId: 0oa21xb3r5McOuFCB357
