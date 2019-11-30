@@ -1,6 +1,6 @@
 package com.rizomm.filemanager.controllers;
 
-import com.rizomm.filemanager.business.entities.connectionsImpl.AmazonS3Connection;
+import com.rizomm.filemanager.business.entities.connectionsimpl.AmazonS3Connection;
 import com.rizomm.filemanager.business.repositories.AmazonS3ConnectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

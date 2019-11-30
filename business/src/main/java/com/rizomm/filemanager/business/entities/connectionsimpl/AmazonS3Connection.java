@@ -1,4 +1,4 @@
-package com.rizomm.filemanager.business.entities.connectionsImpl;
+package com.rizomm.filemanager.business.entities.connectionsimpl;
 
 import com.rizomm.filemanager.business.entities.Connection;
 import lombok.Data;
@@ -21,6 +21,8 @@ public class AmazonS3Connection implements Connection {
     private String secretKey;
     @NotNull
     private String host;
+    @NotNull
+    private String bucket;
 
     @Override
     public Connection getConnection() {

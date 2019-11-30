@@ -1,4 +1,4 @@
-package com.rizomm.filemanager.business.entities.connectionsImpl;
+package com.rizomm.filemanager.business.entities.connectionsimpl;
 
 import com.rizomm.filemanager.business.entities.Connection;
 import lombok.Data;
