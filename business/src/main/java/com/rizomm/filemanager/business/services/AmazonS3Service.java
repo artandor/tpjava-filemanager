@@ -8,16 +8,16 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.rizomm.filemanager.business.entities.connectionsimpl.AmazonS3Connection;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Objects;
+
+import static com.rizomm.filemanager.business.utils.Utils.convertMultiPartToFile;
+import static com.rizomm.filemanager.business.utils.Utils.generateFileName;
 
 @Service
 public class AmazonS3Service {
@@ -25,25 +25,13 @@ public class AmazonS3Service {
 
     private AmazonS3 s3Client;
 
-    public void initializeAmazon() {
+    public void initialize() {
         BasicAWSCredentials credentials = new BasicAWSCredentials(this.connection.getAccessKey(), connection.getSecretKey());
         AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(connection.getHost(), "");
         this.s3Client = AmazonS3ClientBuilder.standard()
                 .withEndpointConfiguration(endpointConfiguration)
                 .withPathStyleAccessEnabled(true)
                 .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
-    }
-
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
-
-    private String generateFileName(MultipartFile multiPart) {
-        return new Date().getTime() + "-" + Objects.requireNonNull(multiPart.getOriginalFilename()).replace(" ", "_");
     }
 
     private void uploadFileTos3bucket(String fileName, File file) {
@@ -83,4 +71,8 @@ public class AmazonS3Service {
         return fileUrl;
     }
 
+    public String deleteFile(String fileName) {
+        this.s3Client.deleteObject(new DeleteObjectRequest(this.connection.getBucket() + "/", fileName));
+        return "Successfully deleted";
+    }
 }

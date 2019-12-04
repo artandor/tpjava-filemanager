@@ -1,7 +1,22 @@
 package com.rizomm.filemanager.business.entities;
 
-public interface Connection {
-    Connection getConnection();
+import lombok.Data;
 
-    Connection closeConnection();
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Connection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @NotNull
+    private String host;
+
+    public abstract Connection getConnection();
+
+    public abstract Connection closeConnection();
 }
