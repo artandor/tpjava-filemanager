@@ -1,0 +1,488 @@
+{
+  "info": {
+    "_postman_id": "94f6d2f5-5da4-4886-adf8-da7ca7c7aa38",
+    "name": "TP_FileManager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Check database empty",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e783e590-53b0-47b5-806f-721c604225fd",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check that database is empty\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.eql([]);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post AWS connection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "007abe4e-75dd-4703-845a-7589f4397fe5",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Body matches string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"nicolas.mylle@lacatholille.fr\");",
+              "});",
+              "",
+              "pm.test(\"Check that content match the request sent\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.eql(",
+              "            {",
+              "                \"id\": 1,",
+              "                \"host\": \"http://127.0.0.1:9000\",",
+              "                \"userEmail\": \"nicolas.mylle@lacatholille.fr\",",
+              "                \"accessKey\": \"AKIAIOSFODNN7EXAMPLE\",",
+              "                \"secretKey\": \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\",",
+              "                \"bucket\": \"michel\",",
+              "                \"connection\": null",
+              "            }",
+              "        );",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"accessKey\": \"AKIAIOSFODNN7EXAMPLE\",\n\t\"secretKey\": \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\",\n\t\"host\": \"http://127.0.0.1:9000\",\n\t\"bucket\": \"michel\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections/aws",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections",
+            "aws"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post FTP connection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "da2eb800-e506-4c64-90e2-5ec2a7390570",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Body contains username\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"nicolas.mylle@lacatholille.fr\");",
+              "});",
+              "",
+              "pm.test(\"Check that content match the request sent\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.eql(",
+              "            {",
+              "                \"id\": 2,",
+              "                \"host\": \"localhost\",",
+              "                \"userEmail\": \"nicolas.mylle@lacatholille.fr\",",
+              "                \"port\": 21,",
+              "                \"documentRoot\": \"/\",",
+              "                \"username\": \"ftp\",",
+              "                \"password\": \"ftp\",",
+              "                \"connection\": null",
+              "            }",
+              "        );",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"host\": \"localhost\",\n\t\"documentRoot\": \"/\",\n\t\"username\": \"ftp\",\n\t\"password\": \"ftp\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections/sftp",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections",
+            "sftp"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload a file to AWS",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "9ad84648-4103-4637-a0cf-9965ab7258ab",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections/1/uploadFile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections",
+            "1",
+            "uploadFile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload a file to FTP",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "d6f3bc96-3458-480c-85fd-70bc01314c16",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections/2/uploadFile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections",
+            "2",
+            "uploadFile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete AWS file",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4b05ee80-97d7-49c1-b3fa-661f09864c68",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"fileName\": \"1575449281318-Capture_d’écran_de_2019-11-28_17-05-50.png\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections/1/deleteFile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections",
+            "1",
+            "deleteFile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get all connections after operations",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e783e590-53b0-47b5-806f-721c604225fd",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove AWS connection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e783e590-53b0-47b5-806f-721c604225fd",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{tokenOkta}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:8080/connections/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "connections",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

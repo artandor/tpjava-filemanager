@@ -16,6 +16,8 @@ public abstract class Connection {
     @NotNull
     private String host;
 
+    private String userEmail;
+
     public abstract Connection getConnection();
 
     public abstract Connection closeConnection();

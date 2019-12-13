@@ -30,6 +30,10 @@ public class FtpService {
         return ftpConnectionRepository.save(connection);
     }
 
+    public void delete(FtpConnection connection) {
+        ftpConnectionRepository.delete(connection);
+    }
+
     public List<FtpConnection> getAll() {
         return ftpConnectionRepository.findAll();
     }
